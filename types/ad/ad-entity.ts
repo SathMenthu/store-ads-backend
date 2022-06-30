@@ -1,5 +1,5 @@
 export interface AdEntity {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   price: number;

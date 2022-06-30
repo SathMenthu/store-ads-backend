@@ -43,5 +43,12 @@ export class AdRecord implements AdEntity {
     if (typeof obj.lat !== "number" || typeof obj.lon !== "number") {
       throw new ValidationError("We cannot locate address of ad");
     }
+
+    this.name = obj.name;
+    this.description = obj.description;
+    this.price = obj.price;
+    this.url = obj.url;
+    this.lat = obj.lat;
+    this.lon = obj.lon;
   }
 }
