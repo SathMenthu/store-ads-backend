@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 export class ValidationError extends Error {}
 
-export const handleError = async (
+export const handleError = (
   err: Error,
   req: Request,
   res: Response,
