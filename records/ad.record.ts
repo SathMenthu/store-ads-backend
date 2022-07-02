@@ -6,7 +6,7 @@ import { FieldPacket } from "mysql2";
 type AdRecordResults = [AdEntity[], FieldPacket[]];
 
 export class AdRecord implements AdEntity {
-  id: string;
+  public id: string;
   name: string;
   description: string;
   price: number;
@@ -58,6 +58,14 @@ export class AdRecord implements AdEntity {
       {
         id,
       }
+    )) as AdRecordResults;
+
+    return results.length === 0 ? null : new AdRecord(results[0]);
+  }
+  static async create() {
+    const [results] = (await pool.execute(
+      "INSERT INTO `ads`(`id`, `name`, `description`, `price`, `url`, `lat`, `lon`) VALUES(:id, :name, :description, :price, :url, :lat, :lon)",
+      this
     )) as AdRecordResults;
 
     return results.length === 0 ? null : new AdRecord(results[0]);
