@@ -1,7 +1,7 @@
 import { AdRecord } from "../../records/ad.record";
-import { ValidationError } from "../../utils/errors";
 
 const defaultObj = {
+  id: "test__",
   name: "Test Name",
   description: "Test",
   url: "http://localhost:80/",

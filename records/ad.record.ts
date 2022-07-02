@@ -1,9 +1,9 @@
-import { AdEntity } from "../types";
+import { AdEntity, NewAddEntity } from "../types";
 import { ValidationError } from "../utils/errors";
+import { pool } from "../utils/db";
+import { FieldPacket } from "mysql2";
 
-interface NedAddEntity extends Omit<AdEntity, "id"> {
-  id?: string;
-}
+type AdRecordResults = [AdEntity[], FieldPacket[]];
 
 export class AdRecord implements AdEntity {
   id: string;
@@ -13,8 +13,7 @@ export class AdRecord implements AdEntity {
   url: string;
   lat: number;
   lon: number;
-
-  constructor(obj: AdEntity) {
+  constructor(obj: NewAddEntity) {
     if (!obj.name || obj.name.length > 100) {
       throw new ValidationError(
         "Ad name cannot be empty or more than 100 characters"
@@ -44,11 +43,23 @@ export class AdRecord implements AdEntity {
       throw new ValidationError("We cannot locate address of ad");
     }
 
+    this.id = obj.id;
     this.name = obj.name;
     this.description = obj.description;
     this.price = obj.price;
     this.url = obj.url;
     this.lat = obj.lat;
     this.lon = obj.lon;
+  }
+
+  static async findOne(id: string): Promise<AdRecord | null> {
+    const [results] = (await pool.execute(
+      "SELECT * FROM `ads` WHERE id = :id",
+      {
+        id,
+      }
+    )) as AdRecordResults;
+
+    return results.length === 0 ? null : new AdRecord(results[0]);
   }
 }
