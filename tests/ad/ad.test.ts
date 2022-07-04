@@ -40,7 +40,7 @@ test("AdRecord returns data from database for one entry.", async () => {
   expect(ad.description).not.toBe(null);
 });
 
-test("AdRecord returns null from database for unexistent entry.", async () => {
+test("AdRecord returns null from database for unexciting entry.", async () => {
   const ad = await AdRecord.findOne("test");
   expect(ad).toBeNull();
 });
