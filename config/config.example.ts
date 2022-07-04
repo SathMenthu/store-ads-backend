@@ -2,9 +2,9 @@
 
 export const config = {
   dbHost: "localhost",
-  user: "user",
-  password: "password",
-  database: "database",
+  dbUser: "user",
+  dbPassword: "password",
+  dbDatabase: "database",
 };
 
  */
