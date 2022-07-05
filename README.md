@@ -1,6 +1,6 @@
 # Backend for Announcement Application 
-## Technologies that were used: JavaScript, TypeScript, Node.js, Express, MySQL, Jest
-### If you want test please rename config.example.ts to config.ts and fill variables.
+### Technologies that were used: JavaScript, TypeScript, Node.js, Express, MySQL, Jest
+#### If you want test please rename config.example.ts to config.ts and fill variables.
 
 
 Frontend repo: https://github.com/SathMenthu/store-ads-frontend
