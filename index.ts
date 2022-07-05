@@ -3,7 +3,7 @@ import cors from "cors";
 import "express-async-errors";
 import { handleError } from "./utils/errors";
 import rateLimit from "express-rate-limit";
-import { adRouter } from "./routers/ad.router";
+import { announcementRouter } from "./routers/announcementRouter";
 import { config } from "./config/config";
 
 const app = express();
@@ -27,7 +27,7 @@ app.use(
 
 const router = Router();
 
-router.use("/ad", adRouter);
+router.use("/announcements", announcementRouter);
 
 app.use("/api", router);
 

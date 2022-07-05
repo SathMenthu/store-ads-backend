@@ -1,6 +1,6 @@
-import { AdRecord } from "../../records/ad.record";
+import { AnnouncementRecord } from "../../records/announcementRecord";
 import { pool } from "../../utils/db";
-import { AdEntity } from "../../types";
+import { AnnouncementEntity } from "../../types";
 
 const defaultObj = {
   name: "[test] Testowy",
@@ -15,48 +15,48 @@ afterAll(async () => {
   await pool.end();
 });
 
-test("AdRecord.create inserts data to database", async () => {
-  const ad = new AdRecord(defaultObj);
-  await ad.insert();
+test("AnnouncementRecord.create inserts data to database", async () => {
+  const announcement = new AnnouncementRecord(defaultObj);
+  await announcement.insert();
 
-  expect(ad.id).toBeDefined();
+  expect(announcement.id).toBeDefined();
 });
 
-test("AdRecord.create returns uuid after create an record", async () => {
-  const ad = new AdRecord(defaultObj);
-  await ad.insert();
+test("AnnouncementRecord.create returns uuid after create an record", async () => {
+  const announcement = new AnnouncementRecord(defaultObj);
+  await announcement.insert();
 
-  const foundRecord = await AdRecord.findOne(ad.id);
+  const foundRecord = await AnnouncementRecord.findOne(announcement.id);
 
   expect(foundRecord).toBeDefined();
-  expect(foundRecord.id).toBe(ad.id);
+  expect(foundRecord.id).toBe(announcement.id);
 });
 
-test("AdRecord returns data from database for one entry.", async () => {
-  const ad = await AdRecord.findOne("1");
+test("AnnouncementRecord returns data from database for one entry.", async () => {
+  const announcement = await AnnouncementRecord.findOne("1");
 
-  expect(ad).toBeDefined();
-  expect(ad.id).toBe("1");
-  expect(ad.description).not.toBe(null);
+  expect(announcement).toBeDefined();
+  expect(announcement.id).toBe("1");
+  expect(announcement.description).not.toBe(null);
 });
 
-test("AdRecord returns null from database for unexciting entry.", async () => {
-  const ad = await AdRecord.findOne("test");
-  expect(ad).toBeNull();
+test("AnnouncementRecord returns null from database for unexciting entry.", async () => {
+  const announcement = await AnnouncementRecord.findOne("test");
+  expect(announcement).toBeNull();
 });
 
-test("AdRecord returns array of found entries.", async () => {
-  const ads = await AdRecord.findAll("");
-  expect(ads).not.toEqual([]);
-  expect(ads[0]).toBeDefined();
+test("AnnouncementRecord returns array of found entries.", async () => {
+  const announcements = await AnnouncementRecord.findAll("");
+  expect(announcements).not.toEqual([]);
+  expect(announcements[0]).toBeDefined();
 });
 
-test("AdRecord returns empty array when searching something that doesnt exist", async () => {
-  const ads = await AdRecord.findAll("ab---!");
-  expect(ads).toEqual([]);
+test("AnnouncementRecord returns empty array when searching something that doesnt exist", async () => {
+  const announcements = await AnnouncementRecord.findAll("ab---!");
+  expect(announcements).toEqual([]);
 });
 
-test("AdRecord returns small amount of data", async () => {
-  const ads = await AdRecord.findAll("HEXEM");
-  expect((ads[0] as AdEntity).price).toBeUndefined();
+test("AnnouncementRecord returns small amount of data", async () => {
+  const announcements = await AnnouncementRecord.findAll("HEXEM");
+  expect((announcements[0] as AnnouncementEntity).price).toBeUndefined();
 });

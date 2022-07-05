@@ -1,12 +1,16 @@
-import { AdEntity, NewAddEntity, SimpleAdEntity } from "../types";
+import {
+  AnnouncementEntity,
+  NewAnnouncementEntity,
+  SimpleAnnouncementEntity,
+} from "../types";
 import { ValidationError } from "../utils/errors";
 import { pool } from "../utils/db";
 import { FieldPacket } from "mysql2";
 import { v4 as uuid } from "uuid";
 
-type AdRecordResults = [AdEntity[], FieldPacket[]];
+type AnnouncementRecordResults = [AnnouncementEntity[], FieldPacket[]];
 
-export class AdRecord implements AdEntity {
+export class AnnouncementRecord implements AnnouncementEntity {
   public id: string;
   name: string;
   description: string;
@@ -14,16 +18,16 @@ export class AdRecord implements AdEntity {
   url: string;
   lat: number;
   lon: number;
-  constructor(obj: NewAddEntity) {
+  constructor(obj: NewAnnouncementEntity) {
     if (!obj.name || obj.name.length > 100) {
       throw new ValidationError(
-        "Ad name cannot be empty or more than 100 characters"
+        "Announcement name cannot be empty or more than 100 characters"
       );
     }
 
     if (obj.description.length > 999) {
       throw new ValidationError(
-        "Ad description cannot be empty or more than 999 characters"
+        "Announcement description cannot be empty or more than 999 characters"
       );
     }
 
@@ -41,7 +45,7 @@ export class AdRecord implements AdEntity {
     }
 
     if (typeof obj.lat !== "number" || typeof obj.lon !== "number") {
-      throw new ValidationError("We cannot locate address of ad");
+      throw new ValidationError("We cannot locate address of announcement");
     }
 
     this.id = obj.id;
@@ -53,23 +57,23 @@ export class AdRecord implements AdEntity {
     this.lon = obj.lon;
   }
 
-  static async findOne(id: string): Promise<AdRecord | null> {
+  static async findOne(id: string): Promise<AnnouncementRecord | null> {
     const [results] = (await pool.execute(
-      "SELECT * FROM `ads` WHERE id = :id",
+      "SELECT * FROM `announcements` WHERE id = :id",
       {
         id,
       }
-    )) as AdRecordResults;
+    )) as AnnouncementRecordResults;
 
-    return results.length === 0 ? null : new AdRecord(results[0]);
+    return results.length === 0 ? null : new AnnouncementRecord(results[0]);
   }
-  static async findAll(name: string): Promise<SimpleAdEntity[]> {
+  static async findAll(name: string): Promise<SimpleAnnouncementEntity[]> {
     const [results] = (await pool.execute(
-      "SELECT * FROM `ads` WHERE `name` LIKE :search",
+      "SELECT * FROM `announcements` WHERE `name` LIKE :search",
       {
         search: `%${name}%`,
       }
-    )) as AdRecordResults;
+    )) as AnnouncementRecordResults;
 
     return results.map((result) => {
       const { id, lat, lon } = result;
@@ -85,7 +89,7 @@ export class AdRecord implements AdEntity {
     }
 
     await pool.execute(
-      "INSERT INTO `ads`(`id`, `name`, `description`, `price`, `url`, `lat`, `lon`) VALUES(:id, :name, :description, :price, :url, :lat, :lon)",
+      "INSERT INTO `announcements`(`id`, `name`, `description`, `price`, `url`, `lat`, `lon`) VALUES(:id, :name, :description, :price, :url, :lat, :lon)",
       this
     );
   }

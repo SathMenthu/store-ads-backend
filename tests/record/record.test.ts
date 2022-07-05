@@ -1,4 +1,4 @@
-import { AdRecord } from "../../records/ad.record";
+import { AnnouncementRecord } from "../../records/announcementRecord";
 
 const defaultObj = {
   id: "test__",
@@ -10,15 +10,15 @@ const defaultObj = {
   lon: 8,
 };
 
-test("Can build AdRecord", () => {
-  const ad = new AdRecord(defaultObj);
+test("Can build AnnouncementRecord", () => {
+  const announcement = new AnnouncementRecord(defaultObj);
 
-  expect(ad.name).toBe("Test Name");
-  expect(ad.lat).not.toBe(10);
+  expect(announcement.name).toBe("Test Name");
+  expect(announcement.lat).not.toBe(10);
 });
 
 test("Validates invalid price", () => {
-  expect(() => new AdRecord({ ...defaultObj, price: -1 })).toThrow(
+  expect(() => new AnnouncementRecord({ ...defaultObj, price: -1 })).toThrow(
     "Price cannot be negative or greater than 9999999"
   );
 });
